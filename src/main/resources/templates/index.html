@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="'Noticiero - ' +${title}"></title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="">Noticiero</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarText" aria-controls="navbarText"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<div class="navbar-text">
+					<div class="row">
+						<div class="col-md-8">
+							<select id="ciudad" onchange="actualizar()"
+								th:classappend="form-control">
+								<option th:each="c:${ciudades}" th:value="${c.key}"
+									th:text="${c.value}" th:selected="${c.key==idCiudad}"></option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<a th:href="@{/(dias=${dia},ciudad=${idCiudad},units='metric')}"
+								th:classappend="${units=='metric'} ? 'text-danger font-weight-bold' : text-primary">C°</a>
+							/ <a th:href="@{/(dias=${dia},ciudad=${idCiudad},units='imperial')}"
+								th:classappend="${units=='imperial'} ? 'text-danger font-weight-bold' : text-primary">F°</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<main role="main"> <!-- Marketing messaging and featurettes
+      ================================================== --> <!-- Wrap the rest of the page in another container to center all the content. -->
+	<div class="container">
+		<hr class="featurette-divider">
+		<!-- START THE FEATURETTES -->
+		<div class="row featurette">
+			<div class="col-md-12">
+				<h2 class="featurette-heading" th:text="'Clima promedio de los proximo(s) '+${dia}+' dia(s) en la ciudad de  '+ ${ciudad} +' es de ' + ${temperaturaPromedio} +' '+${unidades}"></h2>
+			</div>
+			<div class="col-md-12 mx-auto">
+				<div class="form-group">
+					<label>Temperatura Promedio de las próximas </label> 
+					<select id="dias" name="dias" onchange="actualizar();" >
+						<option th:each="d:${dias}" th:value="${d.key}"
+						th:text="${d.value}" th:selected="${d.key==dia}"></option>						
+					</select>
+				</div>
+				<div class="row">
+					<ul >
+						<li th:each="c:${clima.list}" th:text="${c.dt_txt} +' Temp: '+${c.main.temp} +' '+${unidades}  " ></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<hr class="featurette-divider">
+	</div>
+	<input type="hidden" id="tipo" th:value="${units}"></input>
+	<input type="hidden" id="dia" th:value="${dia}"></input> <!-- /.container -->
+	<!-- FOOTER --> <footer class="container">
+		<p class="float-right">
+			<a href="#">Back to top</a>
+		</p>
+		<p>
+			© 2017-2018 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a>
+		</p>
+	</footer> </main>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/index.js"></script>
+</body>
+</html>
